@@ -193,3 +193,57 @@ class _ChooseNewPieceState extends State<ChooseNewPiece> {
     );
   }
 }
+
+Future<void> showResultByTimeup(BuildContext context, String message) {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Column(
+            spacing: 10,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                message,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                spacing: 10,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    height: 40,
+                    child: CButton(
+                      text: "Go Home",
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 150,
+                    height: 40,
+                    child: CButton(
+                      text: "Countinue",
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}

@@ -1,16 +1,19 @@
 import 'package:chess_game/utils/timer_countdown.dart';
 import 'package:chess_game/widgets/killed_piece_container.dart';
+import 'package:chess_game/widgets/popup_window.dart';
 import 'package:flutter/material.dart';
 
 class GameProgress extends StatefulWidget {
   final List<Widget> killedPiecesList;
   final ValueNotifier<Map<String, dynamic>> timeLeftnClockState;
   final Function(int) returnLeftSecond;
+  final String opponentPlayer;
   const GameProgress({
     super.key,
     required this.killedPiecesList,
     required this.timeLeftnClockState,
     required this.returnLeftSecond,
+    required this.opponentPlayer,
   });
 
   @override
@@ -21,7 +24,9 @@ class _GameProgressState extends State<GameProgress> {
   String timer = "10:00";
   Color bgColor = Colors.brown;
   bool state = false;
-  int secondLeft = 0;
+  int? secondLeft;
+
+  bool showGaveOverDialog = true;
 
   final TimerCountdown _timerCountdown = TimerCountdown();
 
@@ -31,7 +36,7 @@ class _GameProgressState extends State<GameProgress> {
     secondLeft = widget.timeLeftnClockState.value["secondLeft"] as int;
     state = widget.timeLeftnClockState.value["state"] as bool;
     if (state) {
-      startTimer(secondLeft);
+      startTimer(secondLeft!);
       bgColor = Colors.redAccent;
     }
     widget.timeLeftnClockState.addListener(clockState);
@@ -44,6 +49,18 @@ class _GameProgressState extends State<GameProgress> {
         setState(() {
           timer = countDown;
           widget.returnLeftSecond(leftSecond);
+
+          // If the timer reaches zero, and ask player to countinue or close the match then stop the countdown
+          if (leftSecond == 0) {
+            if (showGaveOverDialog) {
+              showResultByTimeup(
+                context,
+                "${widget.opponentPlayer} won by time up",
+              );
+              showGaveOverDialog = false;
+              closeCountdownTimer();
+            }
+          }
         });
       },
     );
@@ -58,7 +75,7 @@ class _GameProgressState extends State<GameProgress> {
     if (state) {
       bgColor = Colors.redAccent;
       secondLeft = widget.timeLeftnClockState.value["secondLeft"] as int;
-      startTimer(secondLeft);
+      startTimer(secondLeft!);
     } else {
       bgColor = Colors.brown;
       closeCountdownTimer();
