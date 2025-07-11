@@ -37,7 +37,7 @@ A simple and interactive chess game built with Flutter.
 
 1. **Clone the repository:**
         ```
-        git clone https://github.com/yourusername/chess_game.git
+        git clone https://github.com/wishrohitv/chess_game.git
         cd chess_game
         ```
 
