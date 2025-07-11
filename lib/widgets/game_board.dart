@@ -22,6 +22,7 @@ class GameBoard extends StatefulWidget {
   @override
   State<GameBoard> createState() => _GameBoardState();
 }
+
 class _GameBoardState extends State<GameBoard> {
   List<int> cardTileIndex = List.generate(64, (index) => index);
 
@@ -60,6 +61,19 @@ class _GameBoardState extends State<GameBoard> {
 
   List<Widget> pieceKilledByWhite = [];
   List<Widget> pieceKilledByBlack = [];
+
+  // Player black state
+  ValueNotifier<Map<String, dynamic>> whitePlayerState = ValueNotifier({
+    "state": true,
+    "secondLeft": 600,
+  });
+  int whitePlayerTimeLeft = 600;
+  int blackPlayerTimeLeft = 600;
+  // Player black state
+  ValueNotifier<Map<String, dynamic>> blackPlayerState = ValueNotifier({
+    "state": false,
+    "secondLeft": 600,
+  });
 
   Piece? piece;
   @override
@@ -301,6 +315,16 @@ class _GameBoardState extends State<GameBoard> {
             }
           }
         }
+
+        // player game state
+        whitePlayerState.value = {
+          "state": false,
+          "secondLeft": whitePlayerTimeLeft,
+        };
+        blackPlayerState.value = {
+          "state": true,
+          "secondLeft": blackPlayerTimeLeft,
+        };
       } else if (currentSelectedPieceName.substring(0, 5) == "black") {
         blackPiecesIndex.remove(currentSelectedPieceIndex); // remove
         blackPiecesIndex.add(
@@ -348,6 +372,16 @@ class _GameBoardState extends State<GameBoard> {
             }
           }
         }
+
+        // player game state
+        whitePlayerState.value = {
+          "state": true,
+          "secondLeft": whitePlayerTimeLeft,
+        };
+        blackPlayerState.value = {
+          "state": false,
+          "secondLeft": blackPlayerTimeLeft,
+        };
       }
       // print("white piece index list:  $whitePiecesIndex");
       // print("black piece index list:  $blackPiecesIndex");
@@ -448,25 +482,23 @@ class _GameBoardState extends State<GameBoard> {
             : Container(),
 
         // Black game progress
-        // GameProgress(killedPiece: pieceKilledByBlack),
+        GameProgress(
+          killedPiecesList: pieceKilledByBlack,
+          timeLeftnClockState: blackPlayerState,
+          returnLeftSecond: (p0) {
+            blackPlayerTimeLeft = p0;
+          },
+        ),
         CGridLayout(childrens: gameBoardWithPieces, cols: 8),
-        // Expanded(
-        //   child: GridView.builder(
-        //     itemCount: gameBoardWithPieces.length,
-        //     padding: const EdgeInsets.all(4.0),
-        //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //       crossAxisSpacing: 1,
-        //       mainAxisSpacing: 1,
-        //       crossAxisCount: 8,
-        //     ),
-        //     itemBuilder: (context, index) => gameBoardWithPieces[index],
-        //     physics: NeverScrollableScrollPhysics(),
-        //     primary: true,
-        //   ),
-        // ),
 
         // White game progress
-        // GameProgress(killedPiece: pieceKilledByWhite),
+        GameProgress(
+          killedPiecesList: pieceKilledByWhite,
+          timeLeftnClockState: whitePlayerState,
+          returnLeftSecond: (p0) {
+            whitePlayerTimeLeft = p0;
+          },
+        ),
       ],
     );
   }
@@ -546,7 +578,7 @@ class _GameBoardState extends State<GameBoard> {
         pieceImage: Configs.whitePiecesImgPath[63 - index].values.first,
       );
     } else {
-      // does nothing to the card, insect why
+      // does nothing to the card,
       return TileContainer(color: Colors.blue, index: index);
     }
   }

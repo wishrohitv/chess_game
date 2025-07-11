@@ -18,6 +18,7 @@ class _KilledPieceContainerState extends State<KilledPieceContainer> {
     if (widget.killedPiecesLists.length < 8) {
       return Expanded(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: widget.killedPiecesLists
               .take(7)
               .map((item) => Expanded(child: item))
@@ -30,6 +31,7 @@ class _KilledPieceContainerState extends State<KilledPieceContainer> {
           children: [
             Expanded(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: widget.killedPiecesLists
                     .take(7)
                     .map((item) => Expanded(child: item))

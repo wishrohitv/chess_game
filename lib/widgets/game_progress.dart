@@ -1,9 +1,17 @@
 import 'package:chess_game/utils/timer_countdown.dart';
+import 'package:chess_game/widgets/killed_piece_container.dart';
 import 'package:flutter/material.dart';
 
 class GameProgress extends StatefulWidget {
-  final List<Widget> killedPiece;
-  const GameProgress({super.key, required this.killedPiece});
+  final List<Widget> killedPiecesList;
+  final ValueNotifier<Map<String, dynamic>> timeLeftnClockState;
+  final Function(int) returnLeftSecond;
+  const GameProgress({
+    super.key,
+    required this.killedPiecesList,
+    required this.timeLeftnClockState,
+    required this.returnLeftSecond,
+  });
 
   @override
   State<GameProgress> createState() => _GameProgressState();
@@ -11,54 +19,78 @@ class GameProgress extends StatefulWidget {
 
 class _GameProgressState extends State<GameProgress> {
   String timer = "10:00";
+  Color bgColor = Colors.brown;
+  bool state = false;
+  int secondLeft = 0;
+
+  final TimerCountdown _timerCountdown = TimerCountdown();
 
   @override
   void initState() {
     super.initState();
-    startTimer();
+    secondLeft = widget.timeLeftnClockState.value["secondLeft"] as int;
+    state = widget.timeLeftnClockState.value["state"] as bool;
+    if (state) {
+      startTimer(secondLeft);
+      bgColor = Colors.redAccent;
+    }
+    widget.timeLeftnClockState.addListener(clockState);
   }
 
-  void startTimer() {
-    timerCountDown(
-      500,
-      leftTime: (p0) {
-        // print(p0);
+  void startTimer(int secondLeft) {
+    _timerCountdown.timerCountDown(
+      secondLeft,
+      leftTime: (countDown, leftSecond) {
         setState(() {
-          timer = p0;
+          timer = countDown;
+          widget.returnLeftSecond(leftSecond);
         });
       },
     );
   }
 
+  void closeCountdownTimer() {
+    _timerCountdown.stop();
+  }
+
+  void clockState() {
+    state = widget.timeLeftnClockState.value["state"];
+    if (state) {
+      bgColor = Colors.redAccent;
+      secondLeft = widget.timeLeftnClockState.value["secondLeft"] as int;
+      startTimer(secondLeft);
+    } else {
+      bgColor = Colors.brown;
+      closeCountdownTimer();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 50,
       decoration: BoxDecoration(
-        color: Colors.red,
+        color: bgColor,
         border: BoxBorder.all(width: 0.9, color: Colors.orangeAccent),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Killed pieces container
-          ConstrainedBox(
-            constraints: BoxConstraints(minHeight: 70, maxHeight: 70),
-            child: Wrap(
-              runSpacing: 10,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: widget.killedPiece,
-            ),
-          ),
+          // Killed pieces container and imgs
+          KilledPieceContainer(killedPiecesLists: widget.killedPiecesList),
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(Icons.timer_outlined, color: Colors.brown, size: 32),
-                Text(
-                  timer,
-                  style: TextStyle(fontSize: 32.0, color: Colors.white),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    timer,
+                    style: TextStyle(fontSize: 32.0, color: Colors.white),
+                  ),
                 ),
               ],
             ),
