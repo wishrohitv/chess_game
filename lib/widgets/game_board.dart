@@ -63,14 +63,14 @@ class _GameBoardState extends State<GameBoard> {
   List<Widget> pieceKilledByBlack = [];
 
   // Player black state
-  ValueNotifier<Map<String, dynamic>> whitePlayerState = ValueNotifier({
+  ValueNotifier<Map<String, dynamic>> whitePlayerStateNotifier = ValueNotifier({
     "state": true,
     "secondLeft": 600,
   });
-  int whitePlayerTimeLeft = 600;
-  int blackPlayerTimeLeft = 600;
+  int? whitePlayerTimeLeft;
+  int? blackPlayerTimeLeft;
   // Player black state
-  ValueNotifier<Map<String, dynamic>> blackPlayerState = ValueNotifier({
+  ValueNotifier<Map<String, dynamic>> blackPlayerStateNotifier = ValueNotifier({
     "state": false,
     "secondLeft": 600,
   });
@@ -80,6 +80,10 @@ class _GameBoardState extends State<GameBoard> {
   void initState() {
     super.initState();
     drawInitialBoardWithPiece();
+
+    // Match time duration
+    whitePlayerTimeLeft = whitePlayerStateNotifier.value["secondLeft"] as int;
+    blackPlayerTimeLeft = blackPlayerStateNotifier.value["secondLeft"] as int;
   }
 
   void drawInitialBoardWithPiece() {
@@ -317,11 +321,11 @@ class _GameBoardState extends State<GameBoard> {
         }
 
         // player game state
-        whitePlayerState.value = {
+        whitePlayerStateNotifier.value = {
           "state": false,
           "secondLeft": whitePlayerTimeLeft,
         };
-        blackPlayerState.value = {
+        blackPlayerStateNotifier.value = {
           "state": true,
           "secondLeft": blackPlayerTimeLeft,
         };
@@ -374,11 +378,11 @@ class _GameBoardState extends State<GameBoard> {
         }
 
         // player game state
-        whitePlayerState.value = {
+        whitePlayerStateNotifier.value = {
           "state": true,
           "secondLeft": whitePlayerTimeLeft,
         };
-        blackPlayerState.value = {
+        blackPlayerStateNotifier.value = {
           "state": false,
           "secondLeft": blackPlayerTimeLeft,
         };
@@ -393,8 +397,6 @@ class _GameBoardState extends State<GameBoard> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Play Chess Game"),
-
         // Development mode widget help in development
         developmentMode
             ? SizedBox(
@@ -484,7 +486,8 @@ class _GameBoardState extends State<GameBoard> {
         // Black game progress
         GameProgress(
           killedPiecesList: pieceKilledByBlack,
-          timeLeftnClockState: blackPlayerState,
+          timeLeftnClockState: blackPlayerStateNotifier,
+          opponentPlayer: "White",
           returnLeftSecond: (p0) {
             blackPlayerTimeLeft = p0;
           },
@@ -494,7 +497,8 @@ class _GameBoardState extends State<GameBoard> {
         // White game progress
         GameProgress(
           killedPiecesList: pieceKilledByWhite,
-          timeLeftnClockState: whitePlayerState,
+          timeLeftnClockState: whitePlayerStateNotifier,
+          opponentPlayer: "Black",
           returnLeftSecond: (p0) {
             whitePlayerTimeLeft = p0;
           },
