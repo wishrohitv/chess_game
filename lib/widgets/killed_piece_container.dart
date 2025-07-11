@@ -28,6 +28,7 @@ class _KilledPieceContainerState extends State<KilledPieceContainer> {
     } else {
       return Expanded(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: Row(
