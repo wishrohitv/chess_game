@@ -34,17 +34,11 @@ class _GameScreenState extends State<GameScreen> {
       ),
       child: Center(
         child: Container(
-          // constraints: BoxConstraints(
-          //   minWidth: 400,
-          //   maxWidth: 500,
-          //   minHeight: 400 + 120,
-          //   maxHeight: 500 + 120,
-          // ),
           constraints: BoxConstraints(
-            minWidth: 400 + 120,
-            maxWidth: 500 + 120,
-            minHeight: 400 + 120,
-            maxHeight: 500 + 120,
+            minWidth: 400,
+            maxWidth: 500,
+            minHeight: 400,
+            maxHeight: 500,
           ),
           width: double.infinity,
           child: GameBoard(),
