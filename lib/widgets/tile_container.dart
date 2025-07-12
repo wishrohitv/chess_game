@@ -29,6 +29,7 @@ class TileContainer extends StatefulWidget {
 
 class _TileContainerState extends State<TileContainer> {
   bool showMoves = false;
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +37,6 @@ class _TileContainerState extends State<TileContainer> {
   }
 
   void drawMoves() {
-
     // Check if nextRoute length is empty then disable route highlight
     if (widget.showMoveRoutes!.value['nextRoute'].length == 0) {
       // showMoves = widget.showMoveRoutes!.value['isShow'];
@@ -81,13 +81,14 @@ class _TileContainerState extends State<TileContainer> {
         width: 100,
         decoration: BoxDecoration(
           color: widget.color,
-          border:
-              showMoves // aka valid route
-              ? BoxBorder.all(
-                  width: 2.8,
-                  color: const Color.fromARGB(255, 244, 2, 244),
-                )
-              : BoxBorder.all(width: 1, color: Colors.transparent),
+          // Recently moved piece highlight
+          // border:
+          //     showMoves //
+          //     ? BoxBorder.all(
+          //         width: 2.8,
+          //         color: const Color.fromARGB(255, 244, 2, 244),
+          //       )
+          //     : BoxBorder.all(width: 1, color: Colors.transparent),
         ),
         child: Stack(
           children: [
@@ -100,6 +101,21 @@ class _TileContainerState extends State<TileContainer> {
                   )
                 : Container(),
             widget.pieces ?? Container(),
+
+            // Valid route highlight
+            showMoves
+                ? // aka valid route
+                  Center(
+                    child: Container(
+                      height: 20,
+                      width: 20,
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(116, 217, 5, 255),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
