@@ -49,6 +49,8 @@ class _GameBoardState extends State<GameBoard> {
   ValueNotifier<Map<String, dynamic>> showMovesRoute = ValueNotifier({
     "isShow": false,
     "nextRoute": [],
+    "previousIndexHighilight": -1,
+    "currentIndexHightlight": -1,
   });
 
   // Game State
@@ -387,6 +389,16 @@ class _GameBoardState extends State<GameBoard> {
           "secondLeft": blackPlayerTimeLeft,
         };
       }
+
+      // New positions and previous positions highlight
+      showMovesRoute.value = {
+        "isShow": false,
+        "nextRoute": [],
+        "previousIndexHighilight": currentSelectedPieceIndex!,
+        "currentIndexHightlight": indexS,
+      };
+
+      // Debug
       // print("white piece index list:  $whitePiecesIndex");
       // print("black piece index list:  $blackPiecesIndex");
     }

@@ -73,7 +73,6 @@ class _TileContainerState extends State<TileContainer> {
         }
         // print("Callback exists? ${emptyTileCallback != null}");
         // print("Callback runtimeType: ${emptyTileCallback.runtimeType}");
-        // print(index);
       },
 
       child: Container(
@@ -83,7 +82,9 @@ class _TileContainerState extends State<TileContainer> {
           color: widget.color,
           // Recently moved piece highlight
           // border:
-          //     showMoves //
+          //     widget.showMoveRoutes!.value['currentIndexHightlight'] ==
+          //         widget
+          //             .index //
           //     ? BoxBorder.all(
           //         width: 2.8,
           //         color: const Color.fromARGB(255, 244, 2, 244),
@@ -100,6 +101,30 @@ class _TileContainerState extends State<TileContainer> {
                     ),
                   )
                 : Container(),
+
+            // Recently moved pieaces highlight
+            widget.showMoveRoutes!.value['previousIndexHighilight'] ==
+                    widget.index
+                ? SizedBox(
+                    height: 60,
+                    width: 60,
+                    child: ColoredBox(
+                      color: const Color.fromARGB(158, 215, 188, 89),
+                    ),
+                  )
+                : Container(),
+            widget.showMoveRoutes!.value['currentIndexHightlight'] ==
+                    widget.index
+                ? SizedBox(
+                    height: 60,
+                    width: 60,
+                    child: ColoredBox(
+                      color: const Color.fromARGB(159, 255, 214, 64),
+                    ),
+                  )
+                : Container(),
+
+            // Chess pieces
             widget.pieces ?? Container(),
 
             // Valid route highlight
