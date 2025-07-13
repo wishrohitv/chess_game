@@ -20,15 +20,15 @@ A simple and interactive chess game built with Flutter.
 ### Desktop
 
 <p align="center">
-    <img src="lib/assets/readme/image-1.png" alt="Game Screenshot 1" width="300"/>
+    <img src="lib/assets/readme/image-1.png" alt="Game Screenshot 1" height="309"/>
     <img src="lib/assets/readme/image.png" alt="Game Screenshot 2" width="300"/>
 </p>
 
 ### Mobile
 
 <p align="center">
-    <img src="lib/assets/readme/image-2.png" alt="Mobile Screenshot 1" width="150"/>
-    <img src="lib/assets/readme/image-3.png" alt="Mobile Screenshot 2" width="150"/>
+    <img src="lib/assets/readme/mobile-2.jpeg" alt="Mobile Screenshot 1" width="150"/>
+    <img src="lib/assets/readme/mobile-1.jpeg" alt="Mobile Screenshot 2" width="150"/>
 </p>
 
 ---
