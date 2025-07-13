@@ -87,7 +87,7 @@ class _TileContainerState extends State<TileContainer> {
           //             .index //
           //     ? BoxBorder.all(
           //         width: 2.8,
-          //         color: const Color.fromARGB(255, 244, 2, 244),
+          //         color: const Color.red,
           //       )
           //     : BoxBorder.all(width: 1, color: Colors.transparent),
         ),
