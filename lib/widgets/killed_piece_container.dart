@@ -21,7 +21,7 @@ class _KilledPieceContainerState extends State<KilledPieceContainer> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: widget.killedPiecesLists
               .take(7)
-              .map((item) => Expanded(child: item))
+              .map((item) => Flexible(child: item))
               .toList(),
         ),
       );
@@ -35,7 +35,7 @@ class _KilledPieceContainerState extends State<KilledPieceContainer> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: widget.killedPiecesLists
                     .take(7)
-                    .map((item) => Expanded(child: item))
+                    .map((item) => Flexible(child: item))
                     .toList(),
               ),
             ),
@@ -45,7 +45,7 @@ class _KilledPieceContainerState extends State<KilledPieceContainer> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: widget.killedPiecesLists
                     .skip(8)
-                    .map((item) => Expanded(child: item))
+                    .map((item) => Flexible(child: item))
                     .toList(),
               ),
             ),
